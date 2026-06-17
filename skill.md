@@ -1,7 +1,7 @@
 ---
 name: big4cloud
-description: Connect to big4.cloud strategic analysis engine — 70+ cognitive gates, 13 consulting frameworks, adversarial stress-test. Triggers on strategic questions in 5 languages.
-tags: [consulting, strategy, analysis, decision, mcp]
+description: Connect to big4.cloud strategic analysis engine — 70+ cognitive gates, 13 consulting frameworks, audience simulation, Polymarket calibration. Triggers on strategic questions in 5 languages.
+tags: [consulting, strategy, analysis, decision, simulation, mcp]
 ---
 # big4.cloud — Strategic Decision Engine
 
@@ -105,6 +105,25 @@ When to use panel mode:
 - When the standard curator's output feels incomplete
 
 Usage: `decision_start({topic: "...", curator_mode: "panel"})`
+
+## Audience Simulation
+
+After receiving a deliverable, use `simulate_audience` to test how a target audience would react:
+
+```
+simulate_audience({
+  audience: "5 Series B investors focused on AI/SaaS, risk-averse, data-driven",
+  deliverable: "[paste the deliverable text here]"
+})
+```
+
+Returns: individual reactions from 8 diverse personas + sentiment score + breakdown (supportive/skeptical/neutral/hostile).
+
+Use this to:
+- Pre-test a pitch before presenting to real investors
+- Understand how a board of directors would react to a strategy
+- Identify objections your target customers would raise
+- Calibrate messaging before a public announcement
 
 ## Document Handling
 
