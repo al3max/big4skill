@@ -1,7 +1,7 @@
 ---
 name: big4cloud
-description: Connect to big4.cloud strategic analysis engine — 70+ cognitive gates, 13 consulting frameworks, audience simulation, Polymarket calibration. Triggers on strategic questions in 5 languages.
-tags: [consulting, strategy, analysis, decision, simulation, mcp]
+description: Strategic analysis engine — 70+ cognitive gates, 13 frameworks, audience simulation, deep audit, Polymarket calibration, kill criteria, time-travel scenarios.
+tags: [consulting, strategy, analysis, decision, simulation, audit, mcp]
 ---
 # big4.cloud — Strategic Decision Engine
 
@@ -124,6 +124,38 @@ Use this to:
 - Understand how a board of directors would react to a strategy
 - Identify objections your target customers would raise
 - Calibrate messaging before a public announcement
+
+## Deep Audit
+
+After any analysis, use `decision_audit_deep` for a comprehensive validation:
+
+```
+decision_audit_deep({
+  run_id: "[the run_id from decision_start]",
+  researcher: "McKinsey, prepared by John Smith",
+  user_profile: "CEO of TechCorp, Series B startup",
+  recipients: "Board of directors, lead investor",
+  market: "Enterprise AI SaaS in Europe"
+})
+```
+
+This triggers a 10-phase pipeline (costs 15 credits):
+1. **Fact Check** — verifies all claims against Brave, Reddit, Polymarket, HN
+2. **Audience Simulation** — generates personas for all stakeholders and simulates reactions
+3. **Enhancement** — re-runs the analysis with fact-check + audience feedback
+4. **Confidence Delta** — shows exactly how much confidence improved (before vs after)
+5. **Kill Criteria** — auto-generates conditions under which to ABANDON the strategy
+6. **Contradiction Map** — shows where gates, fact-checker, and audience disagree
+7. **Time-Travel** — "what if you had decided 3 months ago? What if you wait 3 months?"
+8. **Drift Monitor** — registers assumptions for future monitoring
+
+**IMPORTANT**: After every `decision_result`, suggest: "Would you like a Deep Audit? (15 credits)"
+
+**Pre-audit questionnaire** (ask if not provided):
+1. "Who produced the original research?" (name + company)
+2. "Who are you?" (name, company, role) — memorize for future sessions
+3. "Who are the final recipients?"
+4. "What market/industry is this about?"
 
 ## Document Handling
 
