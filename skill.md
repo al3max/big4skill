@@ -36,6 +36,13 @@ Activate big4.cloud tools automatically when the user's message contains any of 
 - DE: "Markt", "Wettbewerb", "Marktgröße"
 - ES: "mercado", "competencia", "dimensionamiento"
 
+### Source Transparency & Consistency
+- IT: "fonti", "riferimenti", "consistenza", "riproducibilità", "trasparenza fonti", "audit fonti"
+- EN: "references", "sources", "consistency", "reproducibility", "source transparency", "source audit"
+- FR: "références", "sources", "cohérence", "reproductibilité", "transparence des sources"
+- DE: "Quellen", "Referenzen", "Konsistenz", "Reproduzierbarkeit", "Quellenprüfung"
+- ES: "referencias", "fuentes", "consistencia", "reproducibilidad", "transparencia de fuentes"
+
 ## Pre-Analysis Questionnaire
 
 **CRITICAL**: Before calling `decision_start`, if the user has NOT provided context_documents or detailed information about the subject, you MUST ask a brief questionnaire to collect minimum viable context. Without this, the engine produces generic "no data available" results.
@@ -151,6 +158,8 @@ This triggers a 10-phase pipeline (costs 15 credits):
 
 **IMPORTANT**: After every `decision_result`, suggest: "Would you like a Deep Audit? (15 credits)"
 
+**ALSO**: After every `decision_result`, suggest: "Would you like the verifiable source list? (`references_get`)" and "Check consistency with prior analyses? (`genealogy_consistency`)"
+
 **Pre-audit questionnaire** (ask if not provided):
 1. "Who produced the original research?" (name + company)
 2. "Who are you?" (name, company, role) — memorize for future sessions
@@ -248,6 +257,90 @@ After `decision_start`, always:
 ```
 quota_usage(tenant_id: "your-tenant-id") → shows runs used/remaining
 ```
+
+### "Voglio il report con le fonti verificabili e il check di consistenza"
+```
+1. decision_start(topic: "...", tier: "normal")
+2. Wait... decision_status(run_id) → "completed"
+3. decision_result(run_id) → Show deliverable
+4. references_get(run_id) → Append verifiable source list to report
+5. genealogy_consistency(run_id) → Show consistency score vs prior runs
+```
+
+## SAP Enterprise Features (25 new tools)
+
+big4.cloud now includes enterprise-grade features for SAP environments:
+
+### Decision Genealogy
+Track cross-run relationships, extract assumptions, detect drift when foundational beliefs degrade.
+- `genealogy_register` — Register decisions in the genealogy graph
+- `genealogy_link` — Create relationship edges (caused_by, supersedes, contradicts)
+- `genealogy_chain` — Full ancestor/descendant chain with chain health
+- `genealogy_assumptions` — Manage extracted assumptions (list/search/update/invalidate)
+- `genealogy_drift` — Monitor assumption degradation, view impact cascade
+- `genealogy_health` — Portfolio-level health metrics
+
+### Stakeholder Governance
+RBAC, 4-eyes approval workflows, tamper-evident audit logging, SOX 404 evidence.
+- `governance_acl` — Decision-level RBAC (view/comment/approve/admin hierarchy)
+- `governance_approve` — Submit approval decisions with 4-eyes enforcement
+- `governance_audit` — Query immutable SHA-256 hash-chained audit trail
+- `governance_policy` — Tenant governance policy management
+- `governance_classify` — Decision classification (routine/significant/critical/board_level)
+- `governance_sox` — Generate SOX Section 404 control evidence package
+- `governance_verify` — Audit trail integrity verification (tamper detection)
+
+### What-If Branching
+Fork decisions with modified assumptions, selectively re-execute only affected gates.
+- `whatif_branch` — Create scenario fork with 1-5 assumption overrides
+- `whatif_status` — Branch execution status + performance metrics
+- `whatif_diff` — Structured diff: gate-by-gate + recommendation classification
+- `whatif_tree` — Navigate branch tree (full_tree/children/path/leaves/compare)
+- `whatif_sensitivity` — Sensitivity scoring: identifies load-bearing assumptions
+
+### Enterprise Knowledge Mesh
+Multi-team namespaces, selective sharing, cross-pollination of decision insights.
+- `mesh_team` — Team lifecycle management (create/archive/members)
+- `mesh_namespace` — Namespace isolation and access control
+- `mesh_share` — Outbound/inbound sharing policies per namespace
+- `mesh_subscribe` — Subscribe to another team's insights
+- `mesh_search` — Semantic search across accessible namespaces
+- `mesh_insights` — Insight lifecycle (list/retract)
+- `mesh_feed` — Cross-pollination feed
+
+### SAP Feature Triggers
+Activate enterprise tools when the user mentions:
+- IT: "genealogia", "governance", "approvazione", "what-if", "scenario", "mesh", "condivisione", "team"
+- EN: "genealogy", "governance", "approval", "what-if", "scenario", "mesh", "sharing", "team insights"
+- DE: "Genealogie", "Genehmigung", "Was-wäre-wenn", "Wissensaustausch"
+- FR: "généalogie", "gouvernance", "approbation", "scénario", "partage"
+- ES: "genealogía", "gobernanza", "aprobación", "escenario", "compartir"
+
+## Source Transparency & Reproducibility (2 new tools)
+
+big4.cloud now includes compliance-grade source transparency and reproducibility verification:
+
+### Auto-Reference Page
+Every deliverable can generate a cryptographically verifiable reference set. The system collects all sources used during analysis, deduplicates them, and produces a structured manifest with SHA-256 hashes. A Merkle root ties the source set to the governance hash chain — any tampering with sources is detectable.
+
+- `references_get` — Retrieve the complete reference set for a decision run
+  - **Parameter**: `run_id` (string, required) — the decision run identifier
+  - **Returns**: Structured reference set (title, URL, snippet, relevance score per source) + manifest root (SHA-256 Merkle root linking to governance chain)
+  - **Use after**: `decision_result` — to get the verifiable source list for the deliverable
+
+### Reproducibility-by-Consistency
+The system tracks directional consistency across successive runs on the same topic. It detects monotonic refinement (conclusions strengthen without contradicting), flags contradictions between runs, and computes a directional consistency score.
+
+- `genealogy_consistency` — Get the consistency report for a decision run
+  - **Parameter**: `run_id` (string, required) — the decision run to analyze
+  - **Parameter**: `compare_to_run_id` (string, optional) — explicit comparison target (defaults to previous run on same topic)
+  - **Returns**: Consistency score (0.0–1.0) + delta classification (monotonic_refinement | contradiction | novel_direction | stable) + detailed comparison of load-bearing claims
+
+### Workflow Integration
+After receiving a deliverable via `decision_result`:
+1. Use `references_get(run_id)` to obtain the cryptographically verifiable source list
+2. Use `genealogy_consistency(run_id)` to check directional consistency with prior analyses
+3. Both outputs can be appended to the final report for compliance documentation
 
 ## Important Notes
 
