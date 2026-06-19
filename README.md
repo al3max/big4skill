@@ -4,11 +4,33 @@ Institutional-grade strategic analysis engine. 70+ cognitive gates, 13 consultin
 
 ## Install
 
-```bash
-skillshare install big4cloud/skills
+### Method 1: Download from GitHub
+Download `skill.md` from this repository and paste its content into your AI client's custom instructions:
+- **Claude Desktop**: Settings → Custom Instructions → paste content
+- **Cursor**: Save as `.cursorrules` in your project root
+
+### Method 2: Direct download
+```
+curl -o skill.md https://raw.githubusercontent.com/al3max/big4skill/main/skill.md
 ```
 
-Or manually: copy `skill.md` to your AI CLI's skill folder.
+### Configure MCP Server
+Add this to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "big4cloud": {
+      "url": "https://big4.cloud/api/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+Get your API key free at https://big4.cloud/register.html
 
 ## What it does
 
